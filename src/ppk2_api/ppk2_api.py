@@ -98,10 +98,10 @@ class PPK2_API():
     def __del__(self):
         """Destructor"""
         try:
-            # reset device
-            self._write_serial((PPK2_Command.RESET,))
-
             if self.ser:
+                # reset device
+                self._write_serial((PPK2_Command.RESET,))
+                
                 self.ser.close()
         except Exception as e:
             logging.error(f"An error occured while closing ppk2_api: {e}")

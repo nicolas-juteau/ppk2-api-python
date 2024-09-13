@@ -56,6 +56,21 @@ ppk2_test.stop_measuring()
 
 ```
 
+## Client/server version (amperemeter mode)
+Default behavior of the PPK2 operating in amperemeter mode implies that power to the DUT is only applied when instructed to do so: when the serial connection to the PPK2 is closed, the power applied to the DUT is cut. 
+Unfortunately, this behavior makes unsuitable the use of the API in a production/test chain where the DUT must be powered at all times, not only when PPK2 actively used.
+
+To circumvent this behavior, a client/server architecture is proposed. Simply start the server when the DUT must be powered, then use the client anytime in the production/test chain to measure current. The server is responsible to configure the PPK2 and serve client requests until the server is closed.
+
+Note that it is possible to always "close" the power path to the DUT, but this require board hardware modification. In order to do this, jump wire the right pad of the R39 resistor to TP29 test point (GND).
+
+It is possible to create an executable of the server by using pyinstaller:
+
+```
+pyinstaller -F server.py
+
+```
+
 ## Licensing
 pp2-api-python is licensed under [GPL V2 license](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html).
 
